@@ -7,9 +7,9 @@ var Player = function(pos, size){
 		if(Input.keys[Input.codes.W])
 			this.pos.add(new Vector2f(0, -speed));
 		if(Input.keys[Input.codes.A])
-                        this.pos.add(new Vector2f(0, speed));
-		if(Input.keys[Input.codes.S])
                         this.pos.add(new Vector2f(-speed, 0));
+		if(Input.keys[Input.codes.S])
+                        this.pos.add(new Vector2f(0, speed));
 		if(Input.keys[Input.codes.D])
                         this.pos.add(new Vector2f(speed, 0));
 
@@ -17,7 +17,9 @@ var Player = function(pos, size){
 
 	this.draw = function(){
 		c.fillStyle = "#FF0000";
-		c.fillRect(this.pos.x, this.pos.y, this.size, this.size);
+		c.beginPath();
+		c.arc(this.pos.x,this.pos.y, this.size, 0, Math.PI * 2);
+		c.fill();
 	};
 
 };
