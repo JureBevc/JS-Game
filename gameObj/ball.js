@@ -1,8 +1,11 @@
 var Ball = function (pos, size) {
     this.pos = pos;
     this.size = size;
+    this.vel = new Vector2f(0, 0);
     this.color = "#F6546A";
     this.update = function () {
+        Collision.ball(this);
+        this.pos = this.pos.add(this.vel);
 
     };
 
