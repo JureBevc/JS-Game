@@ -1,7 +1,7 @@
 var Ball = function (pos, size) {
     this.pos = pos;
     this.size = size;
-    this.vel = new Vector2f(0, 0);
+    this.vel = new Vector2f(-1, -1);
     this.color = "#F6546A";
     this.checked = false;
     this.update = function () {

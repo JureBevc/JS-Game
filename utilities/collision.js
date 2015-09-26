@@ -29,22 +29,27 @@ Collision.ballBounce = function (ball) {
 
         var ball2 = balls[i];
 
-        if (ball != ball2 && !ball.checked && !ball2.checked) {
+        if (ball != ball2) {
             if (ball.vel.length() != 0 || ball2.vel.length() != 0)
                 if (Math.sqrt(Math.pow(((ball.pos.x + ball.vel.x) - (ball2.pos.x + ball2.vel.x)), 2) +
                     Math.pow(((ball.pos.y + ball.vel.y) - (ball2.pos.y + ball2.vel.y)), 2))
                     <= ball.size + ball2.size) {
-                    var cVec = ball.pos.neg().add(ball2.pos);
-                    console.log(cVec.length());
-                    cVec = cVec.norm();
-                    var angle = ball.vel.angle(cVec);
-                    console.log(ball.vel.length() + " " + ball2.vel.length());
-                    var m = Math.cos(angle) * ball.vel.length();
-                    console.log(m);
-                    ball2.vel = new Vector2f(cVec.x * m, cVec.y * m);
-                    ball.vel = ball.vel.add(balls[i].vel.neg());
-                    ball.checked = true;
-                    ball2.checked = true;
+                    if (ball.vel.length() != 0 && ball2.vel.length() != 0) {
+                        var moveAngle1 = ball.vel.angle(new Vector2f(1, 0));
+                        var moveAngle2 = ball2.vel.angle(new Vector2f(1, 0));
+                        var colAngle = ball.pos.neg().add(ball2.pos).angle(new Vector2f(1, 0));
+                        var x1 = ball2.vel.length() * Math.cos(moveAngle2 - colAngle) * Math.cos(colAngle) + ball.vel.length() * Math.sin(moveAngle1 - colAngle) * Math.cos(colAngle + Math.PI / 2);
+                        var y1 = ball2.vel.length() * Math.cos(moveAngle2 - colAngle) * Math.sin(colAngle) + ball.vel.length() * Math.sin(moveAngle1 - colAngle) * Math.sin(colAngle + Math.PI / 2);
+                        var x2 = ball.vel.length() * Math.cos(moveAngle1 - colAngle) * Math.cos(colAngle) + ball2.vel.length() * Math.sin(moveAngle2 - colAngle) * Math.cos(colAngle + Math.PI / 2);
+                        var y2 = ball.vel.length() * Math.cos(moveAngle1 - colAngle) * Math.sin(colAngle) + ball2.vel.length() * Math.sin(moveAngle2 - colAngle) * Math.sin(colAngle + Math.PI / 2);
+
+                        ball.vel = new Vector2f(x1, y1);
+                        ball2.vel = new Vector2f(x2, y2);
+                    }else if(ball.vel.length() == 0){
+
+                    }else{
+
+                    }
                     return true;
                 }
         }
